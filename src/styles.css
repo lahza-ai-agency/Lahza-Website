@@ -1,0 +1,148 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-surface: var(--surface);
+  --color-node: var(--node);
+}
+
+:root {
+  --radius: 0.75rem;
+  /* Lahza logo: near-black, ivory white, signal lime, node gray */
+  --background: oklch(0.11 0.008 290);
+  --surface: oklch(0.16 0.008 290);
+  --foreground: oklch(0.97 0.004 100);
+  --card: oklch(0.15 0.008 290);
+  --card-foreground: oklch(0.97 0.004 100);
+  --popover: oklch(0.15 0.008 290);
+  --popover-foreground: oklch(0.97 0.004 100);
+  --primary: oklch(0.88 0.19 122);
+  --primary-foreground: oklch(0.13 0.01 290);
+  --secondary: oklch(0.2 0.008 290);
+  --secondary-foreground: oklch(0.97 0.004 100);
+  --muted: oklch(0.2 0.008 290);
+  --muted-foreground: oklch(0.7 0.01 270);
+  --accent: oklch(0.88 0.19 122);
+  --accent-foreground: oklch(0.13 0.01 290);
+  --destructive: oklch(0.65 0.2 25);
+  --destructive-foreground: oklch(0.97 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.88 0.19 122);
+  --node: oklch(0.55 0 0);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: color-mix(in oklab, var(--primary) 35%, transparent); }
+}
+
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--foreground) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--foreground) 6%, transparent) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at 50% 30%, black, transparent 75%);
+}
+
+@utility grain {
+  &::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 60;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+@utility glass {
+  background: color-mix(in oklab, var(--foreground) 4%, transparent);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+}
+
+@utility glow-primary {
+  background: radial-gradient(circle, color-mix(in oklab, var(--primary) 22%, transparent), transparent 65%);
+}
+
+@utility text-display {
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+}
+
+@utility eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+}
+
+@keyframes drift { 0%,100% { transform: translate3d(0,0,0); } 50% { transform: translate3d(-18px,-12px,0); } }
+@keyframes rise { 0%,100% { transform: translate3d(0,0,0); } 50% { transform: translate3d(0,-14px,0); } }
+@keyframes reveal { from { opacity: 0; transform: translateY(24px); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes dash { to { stroke-dashoffset: -40; } }
+@keyframes sweep { from { transform: translateX(-120%) skewX(-20deg); } to { transform: translateX(220%) skewX(-20deg); } }
+@keyframes pulse-dot { 0%,100% { opacity: .45; } 50% { opacity: 1; } }
+@keyframes draw { from { stroke-dashoffset: 200; } to { stroke-dashoffset: 0; } }
+@keyframes fade-out { to { opacity: 0; visibility: hidden; } }
+@keyframes grow-bar { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
+@utility animate-drift { animation: drift 14s ease-in-out infinite; }
+@utility animate-drift-slow { animation: drift 20s ease-in-out infinite reverse; }
+@utility animate-rise { animation: rise 11s ease-in-out infinite; }
+@utility animate-reveal { animation: reveal 0.9s cubic-bezier(0.22,1,0.36,1) both; }
+@utility animate-dash { animation: dash 2.4s linear infinite; }
+@utility animate-pulse-dot { animation: pulse-dot 2.6s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+@utility bg-case-study {
+  background:
+    radial-gradient(circle at 30% 20%, color-mix(in oklab, var(--primary) 14%, transparent), transparent 60%),
+    var(--surface);
+}
